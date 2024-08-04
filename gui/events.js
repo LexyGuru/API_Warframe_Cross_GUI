@@ -1,21 +1,3 @@
-function updateCycles() {
-    function updateTimer(elementId, expiryTime) {
-        const now = new Date().getTime();
-        const timeLeft = expiryTime - now;
-
-        if (timeLeft > 0) {
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            $(`#${elementId}`).text(`${hours}h ${minutes}m ${seconds}s`);
-        } else {
-            $(`#${elementId}`).text("Frissítés...");
-            fetchCycleData();
-        }
-    }
-
-
 $(document).ready(function() {
     $.getJSON('https://api.warframestat.us/pc/events', function(data) {
         let eventsHtml = '';
@@ -27,7 +9,6 @@ $(document).ready(function() {
             const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            setInterval(() => updateTimer(" ", cycle-card), 1000);
 
             eventsHtml += `
                 <div class="cycle-card">
