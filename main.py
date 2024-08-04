@@ -1,8 +1,10 @@
 import sys
-import os
+import requests
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QUrl
+
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
 
 
 class MainWindow(QMainWindow):
@@ -47,11 +49,33 @@ class MainWindow(QMainWindow):
         self.load_home_page()
 
     def load_page(self, page_name):
-        file_path = os.path.join(os.path.dirname(__file__), f"gui/{page_name}.html")
-        self.web_view.load(QUrl.fromLocalFile(file_path))
+        html_content = self.download_file(f"gui/{page_name}.html")
+        js_content = self.download_file(f"gui/{page_name}.js")
+
+        full_html = f"""
+        <html>
+        <head>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>{js_content}</script>
+        </head>
+        <body>
+            {html_content}
+        </body>
+        </html>
+        """
+
+        self.web_view.setHtml(full_html, QUrl(GITHUB_RAW_URL))
 
     def load_home_page(self):
         self.load_page("home")
+
+    def download_file(self, filename):
+        url = GITHUB_RAW_URL + filename
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.text
+        else:
+            return f"Error: Could not download {filename}"
 
 
 if __name__ == "__main__":
