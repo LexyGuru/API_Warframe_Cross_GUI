@@ -6,7 +6,6 @@ from PyQt5.QtCore import QUrl
 
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -50,7 +49,7 @@ class MainWindow(QMainWindow):
 
     def load_page(self, page_name):
         html_content = self.download_file(f"gui/{page_name}.html")
-        js_content = self.download_file(f"gui/{page_name}.js")
+        js_content = self.download_file(f"gui/Script/{page_name}.js")
 
         full_html = f"""
         <html>
