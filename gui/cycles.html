@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warframe Ciklusok</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .cycle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .cycle-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .cycle-card h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .cycle-info {
+            margin: 10px 0;
+        }
+        .state {
+            font-weight: bold;
+            color: #3498db;
+        }
+        .time {
+            font-size: 1.2em;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Warframe Ciklusok</h1>
+        <div class="cycle-grid">
+            <div class="cycle-card">
+                <h2>Cetus</h2>
+                <div class="cycle-info">
+                    <p>Állapot: <span id="cetus-state" class="state">day</span></p>
+                    <p>Hátralévő idő: <span id="cetus-time" class="time">1h 24m 35s</span></p>
+                </div>
+            </div>
+            <div class="cycle-card">
+                <h2>Orb Vallis</h2>
+                <div class="cycle-info">
+                    <p>Állapot: <span id="vallis-state" class="state">cold</span></p>
+                    <p>Hátralévő idő: <span id="vallis-time" class="time">0h 13m 43s</span></p>
+                </div>
+            </div>
+            <div class="cycle-card">
+                <h2>Cambion Drift</h2>
+                <div class="cycle-info">
+                    <p>Állapot: <span id="cambion-state" class="state">fass</span></p>
+                    <p>Hátralévő idő: <span id="cambion-time" class="time">1h 24m 35s</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="cycles.js"></script>
+</body>
+</html>
