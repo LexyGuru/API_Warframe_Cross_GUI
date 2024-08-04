@@ -1,95 +1,102 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warframe Információk</title>
+    <title>Warframe Search</title>
     <style>
+        /* Itt megtartjuk az előző stílust */
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 20px;
-}
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.search-box {
-    display: flex;
-    margin-bottom: 20px;
-}
-#search-input {
-    flex-grow: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.results-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.result-card {
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #search-input {
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+        }
+        #search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
 
-.result-info {
-    flex-grow: 1;
-}
+        .result-card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
 
+         .result-info {
+    flex-grow: 1;
+    margin-right: 15px;
+}
 .result-title {
     font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
 }
-
-.result-location {
-    color: #666;
+.result-details, .result-stats, .result-acquisition {
     font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
 }
-
-.result-chance {
-    margin-right: 10px;
+.result-image {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: contain;
 }
-
 .rarity {
-    min-width: 80px;
-    text-align: center;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    align-self: flex-start;
 }
 
-.common { background-color: #3498db; color: white; }
-.uncommon { background-color: #2ecc71; color: white; }
-.rare { background-color: #f39c12; color: white; }
+        .common { background-color: #3498db; color: white; }
+        .uncommon { background-color: #2ecc71; color: white; }
+        .rare { background-color: #f39c12; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Warframe Search</h1>
         <div class="search-box">
-            <input type="text" id="search-input" placeholder="Keresés...">
-            <button onclick="searchDrops()">Keresés</button>
+            <input type="text" id="search-input" placeholder="Search for drops or items...">
+            <button id="search-button">Search</button>
         </div>
-        <div id="results" class="results-container"></div>
+        <div id="results" class="results-container">
+            <!-- Results will be inserted here -->
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="search.js"></script>
