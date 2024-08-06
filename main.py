@@ -1,8 +1,8 @@
 import sys
 import requests
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-from PyQt5.QtCore import QObject, pyqtSlot, QUrl
+from PyQt5.QtCore import QObject, pyqtSlot, QUrl, Qt
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWebChannel import QWebChannel
 
@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Warframe Info Hub")
         self.setGeometry(100, 100, 1200, 800)
+        self.setMinimumSize(800, 600)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -27,7 +28,10 @@ class MainWindow(QMainWindow):
 
         # Bal oldali menü
         menu_widget = QWidget()
+        menu_widget.setFixedWidth(200)  # Fix szélesség beállítása
         menu_layout = QVBoxLayout(menu_widget)
+        menu_layout.setAlignment(Qt.AlignTop)  # Gombok igazítása felülre
+
         menu_buttons = [
             ("Kezdőlap", self.load_home_page),
             ("Keresés", lambda: self.load_page("search")),
@@ -38,7 +42,6 @@ class MainWindow(QMainWindow):
             ("Nightwave", lambda: self.load_page("nightwave")),
             ("Arbitration", lambda: self.load_page("arbitration")),
             ("Baro Ki'Teer", lambda: self.load_page("baro")),
-            ("Update Info", lambda: self.load_page("info_git"))
         ]
 
         for button_text, function in menu_buttons:
@@ -46,8 +49,20 @@ class MainWindow(QMainWindow):
             button.clicked.connect(function)
             menu_layout.addWidget(button)
 
+        # Az "Update Info" gomb hozzáadása a menü aljára
         menu_layout.addStretch()
-        main_layout.addWidget(menu_widget, 1)
+        update_info_button = QPushButton("Update Info")
+        update_info_button.clicked.connect(lambda: self.load_page("info_git"))
+        menu_layout.addWidget(update_info_button)
+
+        # Görgetősáv hozzáadása a menühöz
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(menu_widget)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll_area.setFixedWidth(220)  # Fix szélesség a görgetősávval együtt
+
+        main_layout.addWidget(scroll_area)
 
         # Web nézet
         self.web_view = QWebEngineView()
