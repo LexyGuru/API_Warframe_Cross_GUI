@@ -155,7 +155,7 @@ class GitHubMainWindow(BaseMainWindow):
         print(f"Loading page from GitHub: {page_name}")
         html_content = self.download_file(f"gui/{page_name}.html")
         js_content = self.download_file(f"gui/Script/{page_name}.js")
-        css_content = self.download_file(f"gui/styles/{page_name}_styles.css")
+        css_content = self.download_file(f"gui/Styles/{page_name}_styles.css")
 
         full_html = f"""
         <html>
