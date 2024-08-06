@@ -2,9 +2,18 @@ import sys
 import requests
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QObject, pyqtSlot, QUrl
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtWebChannel import QWebChannel
 
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
+
+
+class WebBridge(QObject):
+    @pyqtSlot(str)
+    def open_url(self, url):
+        QDesktopServices.openUrl(QUrl(url))
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -28,7 +37,8 @@ class MainWindow(QMainWindow):
             ("Sortie", lambda: self.load_page("sortie")),
             ("Nightwave", lambda: self.load_page("nightwave")),
             ("Arbitration", lambda: self.load_page("arbitration")),
-            ("Baro Ki'Teer", lambda: self.load_page("baro"))
+            ("Baro Ki'Teer", lambda: self.load_page("baro")),
+            ("Update Info", lambda: self.load_page("info_git"))
         ]
 
         for button_text, function in menu_buttons:
@@ -42,10 +52,20 @@ class MainWindow(QMainWindow):
         # Web nézet
         self.web_view = QWebEngineView()
         self.web_view.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+
+        # WebBridge beállítása
+        self.web_bridge = WebBridge()
+        self.channel = QWebChannel()
+        self.channel.registerObject('pyotherside', self.web_bridge)
+        self.web_view.page().setWebChannel(self.channel)
+
         main_layout.addWidget(self.web_view, 4)
 
         # Kezdő oldal betöltése
         self.load_home_page()
+
+        # Kapcsoljuk össze a loadFinished szignált az onLoadFinished slottal
+        self.web_view.loadFinished.connect(self.onLoadFinished)
 
     def load_page(self, page_name):
         html_content = self.download_file(f"gui/{page_name}.html")
@@ -54,6 +74,7 @@ class MainWindow(QMainWindow):
         full_html = f"""
         <html>
         <head>
+            <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>{js_content}</script>
         </head>
@@ -75,6 +96,14 @@ class MainWindow(QMainWindow):
             return response.text
         else:
             return f"Error: Could not download {filename}"
+
+    def onLoadFinished(self, ok):
+        if ok:
+            self.web_view.page().runJavaScript("""
+                new QWebChannel(qt.webChannelTransport, function (channel) {
+                    window.pyotherside = channel.objects.pyotherside;
+                });
+            """)
 
 
 if __name__ == "__main__":
