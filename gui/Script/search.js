@@ -86,7 +86,8 @@ function searchDrops() {
                                     ${acquisitionHtml}
                                 </div>
                                 <div class="result-image-container">
-                                    ${item.wikiaThumbnail ? `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">` : ''}
+                                    //${item.wikiaThumbnail ? `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">` : ''}
+                                    ${item.wikiaThumbnail ? `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image" onerror="this.onerror=null;this.src='placeholder.png';">` : ''}
                                     <a href="${wikiUrl}" target="_blank" class="wiki-link">Wiki Page</a>
                                 </div>
                             </div>

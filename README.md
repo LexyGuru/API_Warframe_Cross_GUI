@@ -34,3 +34,11 @@
         * Orb Vallis
         * Cambion Drift
 
+# 2) 
+    python -m pip install --upgrade pip
+    pip install PyQt5
+    pip install requests
+    pip install --upgrade PyQt5
+    pip install --upgrade PyQtWebEngine
+    
+
