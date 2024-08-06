@@ -89,7 +89,8 @@ class MainWindow(QMainWindow):
     def load_home_page(self):
         self.load_page("home")
 
-    def download_file(self, filename):
+    @staticmethod
+    def download_file(filename):
         url = GITHUB_RAW_URL + filename
         response = requests.get(url)
         if response.status_code == 200:
