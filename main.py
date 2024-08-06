@@ -68,6 +68,7 @@ class MainWindow(QMainWindow):
         self.web_view.loadFinished.connect(self.onLoadFinished)
 
     def load_page(self, page_name):
+        print(f"Loading page: {page_name}")
         html_content = self.download_file(f"gui/{page_name}.html")
         js_content = self.download_file(f"gui/Script/{page_name}.js")
 
@@ -76,6 +77,20 @@ class MainWindow(QMainWindow):
         <head>
             <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                // Várunk, amíg a QWebChannel elérhetővé válik
+                function initWebChannel() {{
+                    if (typeof QWebChannel === "undefined") {{
+                        setTimeout(initWebChannel, 100);
+                        return;
+                    }}
+                    new QWebChannel(qt.webChannelTransport, function (channel) {{
+                        window.pyotherside = channel.objects.pyotherside;
+                        console.log("QWebChannel initialized");
+                    }});
+                }}
+                initWebChannel();
+            </script>
             <script>{js_content}</script>
         </head>
         <body>
@@ -100,11 +115,16 @@ class MainWindow(QMainWindow):
 
     def onLoadFinished(self, ok):
         if ok:
+            print("Page loaded successfully")
             self.web_view.page().runJavaScript("""
+                console.log("JavaScript executed from Python");
                 new QWebChannel(qt.webChannelTransport, function (channel) {
                     window.pyotherside = channel.objects.pyotherside;
+                    console.log("QWebChannel initialized from Python");
                 });
             """)
+        else:
+            print("Page load failed")
 
 
 if __name__ == "__main__":

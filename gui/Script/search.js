@@ -5,11 +5,14 @@ function getRarity(chance) {
 }
 
 function searchDrops() {
+    console.log("Search function called");
     const searchTerm = $("#search-input").val();
     if (searchTerm.length < 3) {
         $("#results").html("<p>Please enter at least 3 characters to search.</p>");
         return;
     }
+
+    $("#results").html("<p>Searching...</p>");
 
     // First, search for drops
     $.getJSON(`https://api.warframestat.us/drops/search/${searchTerm}`, function(dropData) {
@@ -41,7 +44,7 @@ function searchDrops() {
                         for (let [damageType, value] of Object.entries(item.damageTypes)) {
                             statsHtml += `${damageType}: ${value}, `;
                         }
-                        statsHtml = statsHtml.slice(0, -2) + '</div>'; // Remove last comma and space
+                        statsHtml = statsHtml.slice(0, -2) + '</div>';
                     }
                     if (item.criticalChance) {
                         statsHtml += `<div class="result-stats">Critical Chance: ${item.criticalChance}</div>`;
@@ -60,9 +63,20 @@ function searchDrops() {
                     if (item.components) {
                         acquisitionHtml += '<div class="result-acquisition">Components:';
                         item.components.forEach(component => {
-                            acquisitionHtml += `<div>${component.name}: ${component.drops.map(drop => drop.location).join(', ')}</div>`;
+                            acquisitionHtml += `<div>${component.name}: ${component.drops ? component.drops.map(drop => drop.location).join(', ') : 'N/A'}</div>`;
                         });
                         acquisitionHtml += '</div>';
+                    }
+
+                    let imageHtml = '';
+                    if (item.wikiaThumbnail) {
+                        imageHtml = `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">`;
+                    }
+
+                    let wikiHtml = '';
+                    if (item.name) {
+                        let wikiUrl = `https://warframe.fandom.com/wiki/${encodeURIComponent(item.name.replace(/ /g, '_'))}`;
+                        wikiHtml = `<a href="${wikiUrl}" target="_blank" class="wiki-link">Wiki Page</a>`;
                     }
 
                     resultsHtml += `
@@ -74,7 +88,10 @@ function searchDrops() {
                                 ${statsHtml}
                                 ${acquisitionHtml}
                             </div>
-                            ${item.wikiaThumbnail ? `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">` : ''}
+                            <div class="result-extra">
+                                ${imageHtml}
+                                ${wikiHtml}
+                            </div>
                         </div>
                     `;
                 });
@@ -94,10 +111,25 @@ function searchDrops() {
 }
 
 $(document).ready(function() {
-    $("#search-button").on('click', searchDrops);
+    console.log("Document ready");
+    $("#search-button").on('click', function() {
+        console.log("Search button clicked");
+        searchDrops();
+    });
     $("#search-input").on('keyup', function(e) {
         if (e.key === 'Enter') {
+            console.log("Enter key pressed");
             searchDrops();
+        }
+    });
+
+    $(document).on('click', '.wiki-link', function(e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        if (typeof window.pyotherside !== 'undefined' && window.pyotherside.open_url) {
+            window.pyotherside.open_url(url);
+        } else {
+            window.open(url, '_blank');
         }
     });
 });
