@@ -20,100 +20,15 @@
         }
         initWebChannel();
     </script>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-        background-color: #f0f0f0;
-    }
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .search-box {
-        margin-bottom: 20px;
-    }
-    #search-input {
-        width: 70%;
-        padding: 10px;
-        font-size: 16px;
-    }
-    #search-button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .result-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        padding: 10px;
-        background-color: #fff;
-    }
-    .result-info {
-        flex: 1;
-    }
-    .result-extra {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 10px;
-    }
-    .result-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-    .result-details, .result-stats, .result-acquisition {
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
-    .result-image {
-        max-width: 100px;
-        max-height: 100px;
-        margin-bottom: 5px;
-    }
-    .wiki-link {
-        display: inline-block;
-        padding: 5px 10px;
-        background-color: #4CAF50;
-        color: white;
-        text-decoration: none;
-        border-radius: 3px;
-    }
-    .rarity {
-        padding: 5px 10px;
-        border-radius: 3px;
-        width: 75px;
-        height: 15px;
-        font-size: 12px;
-        text-align: center;
-        font-weight: bold;
-    }
-
-       .common { background-color: #3498db; color: white; }
-       .uncommon { background-color: #2ecc71; color: white; }
-       .rare { background-color: #f39c12; color: white; }
-</style>
 </head>
 <body>
     <div class="container">
-        <h1>Warframe Search</h1>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Enter search term...">
-            <button id="search-button">Search</button>
-        </div>
-        <div id="results"></div>
+    <h1>Warframe Search</h1>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Enter search term...">
+        <button id="search-button">Search</button>
+    </div>
+    <div id="results" class="results-container"></div>
     </div>
     <script src="Script/search.js"></script>
 </body>

@@ -14,10 +14,10 @@ function searchDrops() {
 
     $("#results").html("<p>Searching...</p>");
 
+    let resultsHtml = "";
+
     // First, search for drops
     $.getJSON(`https://api.warframestat.us/drops/search/${searchTerm}`, function(dropData) {
-        let resultsHtml = "";
-
         if (dropData.length > 0) {
             dropData.forEach(item => {
                 let rarity = getRarity(item.chance);
@@ -39,58 +39,56 @@ function searchDrops() {
             if (itemData.length > 0) {
                 itemData.forEach(item => {
                     let statsHtml = '';
-                    if (item.damageTypes) {
-                        statsHtml += '<div class="result-stats">Damage: ';
-                        for (let [damageType, value] of Object.entries(item.damageTypes)) {
-                            statsHtml += `${damageType}: ${value}, `;
-                        }
-                        statsHtml = statsHtml.slice(0, -2) + '</div>';
-                    }
-                    if (item.criticalChance) {
-                        statsHtml += `<div class="result-stats">Critical Chance: ${item.criticalChance}</div>`;
-                    }
-                    if (item.criticalMultiplier) {
-                        statsHtml += `<div class="result-stats">Critical Multiplier: ${item.criticalMultiplier}</div>`;
-                    }
-                    if (item.procChance) {
-                        statsHtml += `<div class="result-stats">Status Chance: ${item.procChance}</div>`;
-                    }
-                    if (item.fireRate) {
-                        statsHtml += `<div class="result-stats">Fire Rate: ${item.fireRate}</div>`;
-                    }
-
                     let acquisitionHtml = '';
-                    if (item.components) {
-                        acquisitionHtml += '<div class="result-acquisition">Components:';
-                        item.components.forEach(component => {
-                            acquisitionHtml += `<div>${component.name}: ${component.drops ? component.drops.map(drop => drop.location).join(', ') : 'N/A'}</div>`;
+
+                    // Mod-specifikus információk
+                    if (item.type && item.type.toLowerCase().includes('mod')) {
+                        if (item.levelStats) {
+                            statsHtml += '<div class="result-stats"><strong>Level Stats:</strong><table class="level-stats-table">';
+                            item.levelStats.forEach((stat, index) => {
+                                statsHtml += `<tr><td>Rank ${index}</td><td>${stat.stats.join(', ')}</td></tr>`;
+                            });
+                            statsHtml += '</table></div>';
+                        }
+
+                        if (item.polarity) {
+                            statsHtml += `<div class="result-stats"><strong>Polarity:</strong> ${item.polarity}</div>`;
+                        }
+
+                        if (item.rarity) {
+                            statsHtml += `<div class="result-stats"><strong>Rarity:</strong> ${item.rarity}</div>`;
+                        }
+
+                        if (item.fusionLimit) {
+                            statsHtml += `<div class="result-stats"><strong>Max Rank:</strong> ${item.fusionLimit}</div>`;
+                        }
+                    }
+
+                    // Megszerzési információk
+                    if (item.drop) {
+                        acquisitionHtml += '<div class="result-acquisition"><strong>Drops:</strong><ul>';
+                        item.drop.forEach(drop => {
+                            acquisitionHtml += `<li>${drop.location}: ${drop.chance}%</li>`;
                         });
-                        acquisitionHtml += '</div>';
+                        acquisitionHtml += '</ul></div>';
                     }
 
-                    let imageHtml = '';
-                    if (item.wikiaThumbnail) {
-                        imageHtml = `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">`;
-                    }
-
-                    let wikiHtml = '';
-                    if (item.name) {
-                        let wikiUrl = `https://warframe.fandom.com/wiki/${encodeURIComponent(item.name.replace(/ /g, '_'))}`;
-                        wikiHtml = `<a href="${wikiUrl}" target="_blank" class="wiki-link">Wiki Page</a>`;
-                    }
+                    let wikiUrl = item.wikiaUrl || `https://warframe.fandom.com/wiki/${encodeURIComponent(item.name.replace(/ /g, '_'))}`;
 
                     resultsHtml += `
                         <div class="result-card">
-                            <div class="result-info">
-                                <div class="result-title">${item.name}</div>
-                                <div class="result-details">Type: ${item.type}</div>
-                                ${item.description ? `<div class="result-details">Description: ${item.description}</div>` : ''}
-                                ${statsHtml}
-                                ${acquisitionHtml}
-                            </div>
-                            <div class="result-extra">
-                                ${imageHtml}
-                                ${wikiHtml}
+                            <div class="result-content">
+                                <div class="result-info">
+                                    <h2 class="result-title">${item.name}</h2>
+                                    <div class="result-details">Type: ${item.type || 'N/A'}</div>
+                                    ${item.description ? `<div class="result-description">${item.description}</div>` : ''}
+                                    ${statsHtml}
+                                    ${acquisitionHtml}
+                                </div>
+                                <div class="result-image-container">
+                                    ${item.wikiaThumbnail ? `<img src="${item.wikiaThumbnail}" alt="${item.name}" class="result-image">` : ''}
+                                    <a href="${wikiUrl}" target="_blank" class="wiki-link">Wiki Page</a>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -106,7 +104,7 @@ function searchDrops() {
             $("#results").html("<p>Error occurred while searching for items. Please try again later.</p>");
         });
     }).fail(function() {
-        $("#results").html("<p>Error occurred while searching. Please try again later.</p>");
+        $("#results").html("<p>Error occurred while searching for drops. Please try again later.</p>");
     });
 }
 
