@@ -1,0 +1,15 @@
+
+*.pyz
+*.txt
+/dist
+/build
+/build/main
+build/main/Analysis-00.toc
+*.toc
+*.zip
+*.toc
+*.pkg
+*.pyz
+*.txt
+*.html
+.DS_Store
