@@ -1,3 +1,33 @@
+let pyotherside;
+
+function initSearch() {
+    console.log("Search initialization started");
+    
+    $("#search-button").on('click', function() {
+        console.log("Search button clicked");
+        searchDrops();
+    });
+
+    $("#search-input").on('keyup', function(e) {
+        if (e.key === 'Enter') {
+            console.log("Enter key pressed");
+            searchDrops();
+        }
+    });
+
+    $(document).on('click', '.wiki-link', function(e) {
+        e.preventDefault();
+        let url = $(this).attr('href');
+        if (window.pyotherside && window.pyotherside.open_url) {
+            window.pyotherside.open_url(url);
+        } else {
+            window.open(url, '_blank');
+        }
+    });
+
+    console.log("Search initialization completed");
+}
+
 function getRarity(chance) {
     if (chance < 5) return "Rare";
     if (chance < 15) return "Uncommon";
@@ -108,26 +138,4 @@ function searchDrops() {
     });
 }
 
-$(document).ready(function() {
-    console.log("Document ready");
-    $("#search-button").on('click', function() {
-        console.log("Search button clicked");
-        searchDrops();
-    });
-    $("#search-input").on('keyup', function(e) {
-        if (e.key === 'Enter') {
-            console.log("Enter key pressed");
-            searchDrops();
-        }
-    });
-
-    $(document).on('click', '.wiki-link', function(e) {
-        e.preventDefault();
-        let url = $(this).attr('href');
-        if (typeof window.pyotherside !== 'undefined' && window.pyotherside.open_url) {
-            window.pyotherside.open_url(url);
-        } else {
-            window.open(url, '_blank');
-        }
-    });
-});
+// Az initSearch függvényt a HTML-ben hívjuk meg, miután a QWebChannel inicializálódott

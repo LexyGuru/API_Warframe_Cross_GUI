@@ -4,32 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warframe Search</title>
-    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="qrc:///qtwebchannel/qwebchannel.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <script>
-        // Várunk, amíg a QWebChannel elérhetővé válik
         function initWebChannel() {
             if (typeof QWebChannel === "undefined") {
+                console.log("QWebChannel not available yet, retrying...");
                 setTimeout(initWebChannel, 100);
                 return;
             }
             new QWebChannel(qt.webChannelTransport, function (channel) {
                 window.pyotherside = channel.objects.pyotherside;
                 console.log("QWebChannel initialized");
+                // Itt hívhatjuk meg a további inicializáló függvényeket
+                if (typeof initSearch === "function") {
+                    initSearch();
+                }
             });
         }
-        initWebChannel();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("DOM fully loaded");
+            initWebChannel();
+        });
     </script>
 </head>
 <body>
     <div class="container">
-    <h1>Warframe Search</h1>
-    <div class="search-box">
-        <input type="text" id="search-input" placeholder="Enter search term...">
-        <button id="search-button">Search</button>
+        <h1>Warframe Search</h1>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Enter search term...">
+            <button id="search-button">Search</button>
+        </div>
+        <div id="results" class="results-container"></div>
     </div>
-    <div id="results" class="results-container"></div>
-    </div>
-    <script src="Script/search.js"></script>
+    <script src="Script/search.js" defer></script>
 </body>
 </html>
