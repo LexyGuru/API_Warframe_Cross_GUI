@@ -72,6 +72,7 @@ class BaseMainWindow(QMainWindow):
 
         self.web_view = QWebEngineView()
         self.web_view.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+        self.web_view.settings().setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
         self.web_view.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         self.web_view.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
         self.web_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
