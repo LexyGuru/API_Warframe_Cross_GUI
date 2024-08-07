@@ -103,26 +103,23 @@ class LocalMainWindow(BaseMainWindow):
         base_path = os.path.dirname(os.path.abspath(__file__))
         html_path = os.path.join(base_path, "gui", f"{page_name}.html")
         js_path = os.path.join(base_path, "gui", "Script", f"{page_name}.js")
-        css_path = os.path.join(base_path, "gui", "styles", "search_styles.css")
-
-        print(f"Attempting to load local files for {page_name}")
+        css_path = os.path.join(base_path, "gui", "styles", f"{page_name}_styles.css")
 
         try:
-            with open(html_path, 'r', encoding='utf-8') as html_file:
-                html_content = html_file.read()
+            html_content = self.read_file(html_path)
+            js_content = self.read_file(js_path)
 
-            with open(js_path, 'r', encoding='utf-8') as js_file:
-                js_content = js_file.read()
-
-            with open(css_path, 'r', encoding='utf-8') as css_file:
-                css_content = css_file.read()
+            # CSS betöltése, ha létezik a fájl
+            css_content = ""
+            if os.path.exists(css_path):
+                css_content = f"<style>{self.read_file(css_path)}</style>"
 
             full_html = f"""
             <html>
             <head>
                 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <style>{css_content}</style>
+                {css_content}
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {{
                         new QWebChannel(qt.webChannelTransport, function (channel) {{
@@ -141,12 +138,17 @@ class LocalMainWindow(BaseMainWindow):
 
             self.web_view.setHtml(full_html, QUrl.fromLocalFile(base_path))
         except FileNotFoundError as e:
-            print(f"File not found: {e.filename}")
-            self.web_view.setHtml(
-                f"<html><body><h1>Error: File not found</h1><p>Could not find {e.filename}</p></body></html>")
+            error_html = f"<html><body><h1>File not found</h1><p>{str(e)}</p></body></html>"
+            self.web_view.setHtml(error_html)
         except Exception as e:
-            print(f"Error loading files: {e}")
-            self.web_view.setHtml(f"<html><body><h1>Error loading page</h1><p>{str(e)}</p></body></html>")
+            error_html = f"<html><body><h1>Error loading page</h1><p>{str(e)}</p></body></html>"
+            self.web_view.setHtml(error_html)
+
+    @staticmethod
+    def read_file(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
+
 
 class GitHubMainWindow(BaseMainWindow):
     GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
@@ -192,12 +194,16 @@ class GitHubMainWindow(BaseMainWindow):
             print(f"Error downloading {filename}: {e}")
             return f"<p>Error loading {filename}</p>"
 
+    @staticmethod
+    def read_file(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Válassza ki a megfelelő verziót
-    use_local = False  # Állítsa False-ra a GitHub verzióhoz
+    use_local = False #True  # Állítsa False-ra a GitHub verzióhoz
 
     if use_local:
         window = LocalMainWindow()
