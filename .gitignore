@@ -15,3 +15,6 @@ build/main/Analysis-00.toc
 .DS_Store
 .DS_Store
 main.spec
+/main_backup
+/main_backup
+main_backup/main.py

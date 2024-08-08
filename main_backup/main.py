@@ -19,7 +19,6 @@ class WebBridge(QObject):
 class RequestInterceptor(QWebEngineUrlRequestInterceptor):
     def interceptRequest(self, info):
         print(f"Request: {info.requestUrl().toString()}")
-        print(f"Resource Type: {info.resourceType()}")
 
 
 class BaseMainWindow(QMainWindow):
@@ -103,12 +102,12 @@ class BaseMainWindow(QMainWindow):
         if ok:
             print(f"Page loaded successfully: {self.web_view.url().toString()}")
             self.web_view.page().runJavaScript("""
-                console.log("JavaScript executed from Python");
                 if (typeof initWebChannel === 'function') {
                     initWebChannel();
                 } else {
                     console.log("initWebChannel function not found");
                 }
+                console.log("JavaScript executed from Python");
             """)
         else:
             print(f"Page load failed: {self.web_view.url().toString()}")
@@ -125,31 +124,16 @@ class BaseMainWindow(QMainWindow):
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <style>{css_content}</style>
             <script>
-                function initWebChannel() {{
-                    if (typeof QWebChannel === "undefined") {{
-                        console.log("QWebChannel not available yet, retrying...");
-                        setTimeout(initWebChannel, 100);
-                        return;
-                    }}
-                    new QWebChannel(qt.webChannelTransport, function (channel) {{
-                        window.pyotherside = channel.objects.pyotherside;
-                        console.log("QWebChannel initialized");
-                        if (typeof initSearch === "function") {{
-                            initSearch();
-                        }}
-                    }});
-                }}
-
-                if (document.readyState === "loading") {{
-                    document.addEventListener("DOMContentLoaded", initWebChannel);
-                }} else {{
-                    initWebChannel();
-                }}
-
                 window.onerror = function(message, source, lineno, colno, error) {{
                     console.error("JavaScript error:", message, "at", source, ":", lineno);
                     return false;
                 }};
+                document.addEventListener("DOMContentLoaded", function() {{
+                    new QWebChannel(qt.webChannelTransport, function (channel) {{
+                        window.pyotherside = channel.objects.pyotherside;
+                        console.log("QWebChannel initialized");
+                    }});
+                }});
             </script>
             <script>{js_content}</script>
         </head>
@@ -220,13 +204,9 @@ class GitHubMainWindow(BaseMainWindow):
     @staticmethod
     def download_file(filename):
         url = GitHubMainWindow.GITHUB_RAW_URL + filename
-        try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            return response.text
-        except requests.RequestException as e:
-            print(f"Error downloading {filename}: {e}")
-            return f"Error loading {filename}: {str(e)}"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        return response.text
 
 
 if __name__ == "__main__":
