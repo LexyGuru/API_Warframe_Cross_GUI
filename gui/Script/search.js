@@ -2,9 +2,22 @@ console.log('Search script loaded');
 
 let pyotherside;
 
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM fully loaded");
+    if (typeof QWebChannel !== "undefined") {
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.pyotherside = channel.objects.pyotherside;
+            console.log("QWebChannel initialized");
+            initSearch();
+        });
+    } else {
+        console.error("QWebChannel is not defined");
+    }
+});
+
 function initSearch() {
     console.log("Search initialization started");
-    
+
     $("#search-button").on('click', function() {
         console.log("Search button clicked");
         searchDrops();
@@ -133,18 +146,10 @@ function searchDrops() {
 
             $("#results").html(resultsHtml);
 
-            // Itt adjuk hozzá az időzítést
+            // Itt adjuk hozzá az időzítést és a képellenőrzést
             setTimeout(function() {
                 console.log("Delayed image loading check");
-                $('.result-image').each(function() {
-                    console.log("Checking image:", this.src);
-                    if (!this.complete || this.naturalWidth === 0) {
-                        console.log("Image not loaded:", this.src);
-                        $(this).attr('src', 'path/to/placeholder-image.png');
-                    } else {
-                        console.log("Image loaded successfully:", this.src);
-                    }
-                });
+                checkImages();
             }, 1000);  // 1 másodperces késleltetés
 
         }).fail(function() {
@@ -155,6 +160,17 @@ function searchDrops() {
     });
 }
 
+function checkImages() {
+    $('.result-image').each(function() {
+        if (!this.complete || this.naturalWidth === 0) {
+            console.error("Image failed to load:", this.src);
+            $(this).attr('src', 'path/to/placeholder-image.png');
+        } else {
+            console.log("Image loaded successfully:", this.src);
+        }
+    });
+}
+
 // Képbetöltés eseményfigyelők
 $(document).on('load', '.result-image', function() {
     console.log('Image loaded event:', this.src);
@@ -162,5 +178,3 @@ $(document).on('load', '.result-image', function() {
     console.error('Image failed to load event:', this.src);
     $(this).attr('src', 'path/to/placeholder-image.png');
 });
-
-// Az initSearch függvényt a HTML-ben hívjuk meg, miután a QWebChannel inicializálódott
