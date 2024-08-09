@@ -1,5 +1,17 @@
+
+
+
+
 # API_Warframe_Cross_GUI
-    COMING SOON - HAMAROSAN
+```bash
+# Clone this repository
+$ git clone https://github.com/amitmerchant1990/electron-markdownify
+
+# Go into the repository
+$ cd electron-markdownify
+```
+
+
 
 
 ## Alpha - 2024.AUG.4 
@@ -14,31 +26,64 @@
      * Linux - .......
     
 
-## Tervek 
-    * Fontosabb API lekeresek
-        - Keresés !
-            * ITEM !
-            * DROP 
-        - Ciklusok 
-        - Események !
-        - Void Fissures !
-        - Sortie !
-        - Nightwave !
-        - Arbitration !
-        - Baro Ki'Teer !
 
-# 1)
-    - Drop keresö 
-    - Warframe Ciklusok
-        * Cetus
-        * Orb Vallis
-        * Cambion Drift
+    
+<h1 align="center">
+  <br>
+  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="Icons/None.png" alt="Markdownify" width="200"></a>
+  <br>
+  Lekszikov Miklos
+  <br>
+</h1>
 
-# 2) 
-    python -m pip install --upgrade pip
-    pip install PyQt5
-    pip install requests
-    pip install --upgrade PyQt5
-    pip install --upgrade PyQtWebEngine
+<h4 align="center">Ez egy Warframe API asztali alkalmazas.</h4>
+
+
+<p align="center">
+
+</p>
+
+
+
+## Jelenlegi 
+
+* Cross platform
+  - Windows, macOS és Linux ready.
+* Fontosabb API lekeresek
+  * Keresés 
+    - ITEM 
+    - DROP 
+  * Ciklusok 
+  * Események 
+  * Void Fissures 
+  * Sortie 
+  * Nightwave 
+  * Arbitration 
+  * Baro Ki'Teer 
+
+
+## Letöltés
+```bash
+# Clone this repository
+$ git clone https://github.com/amitmerchant1990/electron-markdownify
+
+# Go into the repository
+$ cd electron-markdownify
+
+```
+
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+
+
+## Download
+
+
+> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
+> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
+> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
+
+
+
     
 
