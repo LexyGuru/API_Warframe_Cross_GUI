@@ -1,10 +1,7 @@
-
 *.pyz
 *.txt
-/dist
 /build
-/build/main
-build/main/Analysis-00.toc
+/dist
 *.toc
 *.zip
 *.toc
@@ -13,8 +10,6 @@ build/main/Analysis-00.toc
 *.txt
 *.html
 .DS_Store
-.DS_Store
 main.spec
-/main_backup
 /main_backup
 main_backup/main.py

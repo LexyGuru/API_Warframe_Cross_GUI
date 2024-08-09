@@ -1,8 +1,8 @@
 import sys
 import os
 import requests
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, \
-    QSizePolicy
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea
+''' QSizePolicy '''
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import QObject, pyqtSlot, QUrl, Qt
 from PyQt5.QtGui import QDesktopServices
@@ -133,12 +133,18 @@ class BaseMainWindow(QMainWindow):
     @staticmethod
     def create_full_html(html_content, js_content, css_content):
         return f"""
-        <html>
-        <head>
-            <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <style>{css_content}</style>
-            <script>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Warframe Info Hub</title>
+                <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <style>{css_content}</style>
+                <script>
+                console.log("HTML content loaded");
+                {js_content}
                 function initWebChannel() {{
                     if (typeof QWebChannel === "undefined") {{
                         console.log("QWebChannel not available yet, retrying...");
@@ -153,25 +159,20 @@ class BaseMainWindow(QMainWindow):
                         }}
                     }});
                 }}
-
-                if (document.readyState === "loading") {{
-                    document.addEventListener("DOMContentLoaded", initWebChannel);
-                }} else {{
+                document.addEventListener("DOMContentLoaded", function() {{
+                    console.log("DOM fully loaded");
                     initWebChannel();
-                }}
-
-                window.onerror = function(message, source, lineno, colno, error) {{
-                    console.error("JavaScript error:", message, "at", source, ":", lineno);
-                    return false;
-                }};
-            </script>
-            <script>{js_content}</script>
-        </head>
-        <body>
-            {html_content}
-        </body>
-        </html>
-        """
+                }});
+                </script>
+            </head>
+            <body>
+                {html_content}
+                <script>
+                console.log("Body content loaded");
+                </script>
+            </body>
+            </html>
+            """
 
 
 class LocalMainWindow(BaseMainWindow):
@@ -221,11 +222,8 @@ class GitHubMainWindow(BaseMainWindow):
             except requests.RequestException:
                 print(f"CSS file not found for {page_name}, using empty CSS")
 
-            if "Error loading" in html_content or "Error loading" in js_content:
-                raise Exception("Failed to load required HTML or JS files")
-
             full_html = self.create_full_html(html_content, js_content, css_content)
-            self.web_view.setHtml(full_html, QUrl(self.GITHUB_RAW_URL))
+            self.web_view.setHtml(full_html)
         except Exception as e:
             error_html = f"<html><body><h1>Error loading page</h1><p>{str(e)}</p></body></html>"
             self.web_view.setHtml(error_html)

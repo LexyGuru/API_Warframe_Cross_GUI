@@ -1,5 +1,4 @@
 import sys
-import os
 import requests
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, QSizePolicy
 from PyQt6.QtWebEngineWidgets import QWebEngineView
