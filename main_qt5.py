@@ -29,6 +29,8 @@ class BaseMainWindow(QMainWindow):
         self.setGeometry(100, 100, 1200, 800)
         self.setMinimumSize(800, 600)
         self.request_interceptor = RequestInterceptor()
+        self.web_bridge = WebBridge()
+        self.channel = QWebChannel()
         self.setup_ui()
 
     def setup_ui(self):
@@ -76,7 +78,10 @@ class BaseMainWindow(QMainWindow):
         self.web_view.settings().setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
         self.web_view.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         self.web_view.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
-        self.web_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.web_view.page().setWebChannel(self.channel)
+        self.channel.registerObject('pyotherside', self.web_bridge)
+
+        self.web_view.page().javaScriptConsoleMessage = self.log_javascript
 
         self.web_bridge = WebBridge()
         self.channel = QWebChannel()
@@ -104,10 +109,16 @@ class BaseMainWindow(QMainWindow):
             print(f"Page loaded successfully: {self.web_view.url().toString()}")
             self.web_view.page().runJavaScript("""
                 console.log("JavaScript executed from Python");
-                if (typeof initWebChannel === 'function') {
-                    initWebChannel();
+                if (typeof QWebChannel !== 'undefined') {
+                    new QWebChannel(qt.webChannelTransport, function (channel) {
+                        window.pyotherside = channel.objects.pyotherside;
+                        console.log("QWebChannel initialized from Python");
+                        if (typeof initSearch === 'function') {
+                            initSearch();
+                        }
+                    });
                 } else {
-                    console.log("initWebChannel function not found");
+                    console.error("QWebChannel is not defined");
                 }
             """)
         else:
@@ -115,6 +126,9 @@ class BaseMainWindow(QMainWindow):
 
     def js_console_message(self, level, message, line, source_id):
         print(f"JavaScript: {message}")
+
+    def log_javascript(level, message, line, source):
+        print(f"JavaScript [{level}] {message} at line {line} in {source}")
 
     @staticmethod
     def create_full_html(html_content, js_content, css_content):

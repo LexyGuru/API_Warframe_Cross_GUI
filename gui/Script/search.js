@@ -1,19 +1,25 @@
 console.log('Search script loaded');
-
 let pyotherside;
+
+function initWebChannel() {
+    if (typeof QWebChannel === "undefined") {
+        console.log("QWebChannel not available yet, retrying...");
+        setTimeout(initWebChannel, 100);
+        return;
+    }
+    new QWebChannel(qt.webChannelTransport, function (channel) {
+        window.pyotherside = channel.objects.pyotherside;
+        console.log("QWebChannel initialized");
+        initSearch();
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM fully loaded");
-    if (typeof QWebChannel !== "undefined") {
-        new QWebChannel(qt.webChannelTransport, function (channel) {
-            window.pyotherside = channel.objects.pyotherside;
-            console.log("QWebChannel initialized");
-            initSearch();
-        });
-    } else {
-        console.error("QWebChannel is not defined");
-    }
+    initWebChannel();
 });
+
+console.log('Search script loaded');
 
 function initSearch() {
     console.log("Search initialization started");
@@ -42,6 +48,7 @@ function initSearch() {
 
     console.log("Search initialization completed");
 }
+
 
 function getRarity(chance) {
     if (chance < 5) return "Rare";
