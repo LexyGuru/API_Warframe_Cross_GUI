@@ -1,33 +1,3 @@
-
-
-
-
-# API_Warframe_Cross_GUI
-```bash
-# Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
-
-# Go into the repository
-$ cd electron-markdownify
-```
-
-
-
-
-## Alpha - 2024.AUG.4 
-    Warframe API Cross Platform 
-        * Windows
-        * Linux
-        * MacOS
-
-    TESZT 
-     * MAC MINI M2 2023 - A(z) 15.1 bétaverziója (24B5009l)
-     * Pararell Windows 11 ARM - ......
-     * Linux - .......
-    
-
-
-    
 <h1 align="center">
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src="Icons/None.png" alt="Markdownify" width="200"></a>
@@ -65,23 +35,32 @@ $ cd electron-markdownify
 ## Letöltés
 ```bash
 # Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+$ git clone https://github.com/LexyGuru/API_Warframe_Cross_GUI.git
 
 # Go into the repository
-$ cd electron-markdownify
+$ cd API_Warframe_Cross_GUI
 
 ```
 
+Windows rendszerre:
+```bash
+pyinstaller --onefile --windowed --add-data "gui:gui" --add-data "gui/Script:gui/Script" --add-data "gui/Styles:gui/Styles" --icon=Icons/AppIcon.ico main_qt6.py
+```
+
+macOS rendszerre:
+```bash
+pyinstaller --onefile --windowed --add-data "gui:gui" --add-data "gui/Script:gui/Script" --add-data "gui/Styles:gui/Styles" --icon=Icons/AppIcon.icns main_qt6.py
+```
+
+Linux rendszerre:
+```bash
+pyinstaller --onefile --windowed --add-data "gui:gui" --add-data "gui/Script:gui/Script" --add-data "gui/Styles:gui/Styles" --icon=Icons/AppIcon.png main_qt6.py
+```
+
 > **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+> If you're using Linux Bash for Windows, [see this guide](https://www.onlogic.com/blog/how-to-enable-bash-for-windows-10-and-11/) or use `node` from the command prompt.
 
 
-## Download
-
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
 
 
 
