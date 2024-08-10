@@ -1,3 +1,7 @@
+# Copyright (c) 2024 LexyGuru
+# This file is part of the API_Warframe_Cross_GUI project, licensed under the MIT License.
+# For the full license text, see the LICENSE file in the project root.
+
 import sys
 import requests
 import markdown
