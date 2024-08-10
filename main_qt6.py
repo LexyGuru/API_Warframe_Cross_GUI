@@ -39,6 +39,7 @@ class BaseMainWindow(QMainWindow):
             ("Események", lambda: self.load_page("events")),
             ("Void Fissures", lambda: self.load_page("fissures")),
             ("Sortie", lambda: self.load_page("sortie")),
+            ("Arcon Hunt", lambda: self.load_page("archon")),
             ("Nightwave", lambda: self.load_page("nightwave")),
             ("Arbitration", lambda: self.load_page("arbitration")),
             ("Baro Ki'Teer", lambda: self.load_page("baro")),

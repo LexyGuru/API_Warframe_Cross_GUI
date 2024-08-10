@@ -35,10 +35,11 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['Icons/AppIcon.icns'],
 )
 app = BUNDLE(
     exe,
     name='main_qt6.app',
-    icon=None,
+    icon='Icons/AppIcon.icns',
     bundle_identifier=None,
 )
