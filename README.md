@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="Icons/None.png" alt="Markdownify" width="200"></a>
+  <a href="https://github.com/LexyGuru/API_Warframe_Cross_GUI"><img src="Icons/None.png" alt="Lekszikov" width="200"></a>
   <br>
   Lekszikov Miklos
   <br>
