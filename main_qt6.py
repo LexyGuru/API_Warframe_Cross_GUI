@@ -43,7 +43,7 @@ class GitHubMainWindow(QMainWindow):
     def create_menu_widget(self):
         tree = QTreeWidget()
         tree.setHeaderHidden(True)
-        tree.setFont(QFont("Arial", 10))
+        tree.setFont(QFont("Arial", 15))
         tree.setStyleSheet("""
             QTreeWidget::item { padding: 5px; }
             QTreeWidget::item:selected { background-color: #E0E0E0; }
