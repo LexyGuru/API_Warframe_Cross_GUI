@@ -1,10 +1,11 @@
 import sys
 import requests
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, QSizePolicy
+import markdown
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QScrollArea, QSizePolicy
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile, QWebEngineSettings
 from PyQt6.QtCore import QObject, pyqtSlot, QUrl, Qt
-from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtGui import QDesktopServices, QFont
 from PyQt6.QtWebChannel import QWebChannel
 
 class WebBridge(QObject):
@@ -12,7 +13,9 @@ class WebBridge(QObject):
     def open_url(self, url):
         QDesktopServices.openUrl(QUrl(url))
 
-class BaseMainWindow(QMainWindow):
+class GitHubMainWindow(QMainWindow):
+    GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Warframe Info Hub")
@@ -27,101 +30,80 @@ class BaseMainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         main_layout = QHBoxLayout(central_widget)
 
-        menu_widget = QWidget()
-        menu_widget.setFixedWidth(200)
-        menu_layout = QVBoxLayout(menu_widget)
-        menu_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        # Menü beállítása
+        menu_widget = self.create_menu_widget()
+        main_layout.addWidget(menu_widget, 1)
 
-        menu_buttons = [
+        # Web nézet beállítása
+        self.web_view = self.create_web_view()
+        main_layout.addWidget(self.web_view, 3)
+
+        self.load_home_page()
+
+    def create_menu_widget(self):
+        tree = QTreeWidget()
+        tree.setHeaderHidden(True)
+        tree.setFont(QFont("Arial", 10))
+        tree.setStyleSheet("""
+            QTreeWidget::item { padding: 5px; }
+            QTreeWidget::item:selected { background-color: #E0E0E0; }
+        """)
+
+        menu_structure = [
             ("Kezdőlap", self.load_home_page),
             ("Keresés", lambda: self.load_page("search")),
-            ("Ciklusok", lambda: self.load_page("cycles")),
+            ("Ciklusok", [
+                ("Ciklusok", lambda: self.load_page("cycles")),
+                ("Sortie", lambda: self.load_page("sortie")),
+                ("Arcon Hunt", lambda: self.load_page("archon")),
+                ("Arbitration", lambda: self.load_page("arbitration")),
+                ("Nightwave", lambda: self.load_page("nightwave")),
+                ("Void Fissures", lambda: self.load_page("fissures")),
+                ("Baro Ki'Teer", lambda: self.load_page("baro")),
+            ]),
             ("Események", lambda: self.load_page("events")),
-            ("Void Fissures", lambda: self.load_page("fissures")),
-            ("Sortie", lambda: self.load_page("sortie")),
-            ("Arcon Hunt", lambda: self.load_page("archon")),
-            ("Nightwave", lambda: self.load_page("nightwave")),
-            ("Arbitration", lambda: self.load_page("arbitration")),
-            ("Baro Ki'Teer", lambda: self.load_page("baro")),
+            ("Git Update Info", lambda: self.load_page("info_git")),
         ]
 
-        for button_text, function in menu_buttons:
-            button = QPushButton(button_text)
-            button.clicked.connect(function)
-            menu_layout.addWidget(button)
+        self.create_menu_items(tree, menu_structure)
+        tree.expandAll()
+        tree.itemClicked.connect(self.on_item_clicked)
 
-        menu_layout.addStretch()
-        update_info_button = QPushButton("Update Info")
-        update_info_button.clicked.connect(lambda: self.load_page("info_git"))
-        menu_layout.addWidget(update_info_button)
+        return tree
 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setWidget(menu_widget)
-        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll_area.setFixedWidth(220)
+    def create_menu_items(self, parent, items):
+        for item in items:
+            if isinstance(item[1], list):
+                tree_item = QTreeWidgetItem(parent, [item[0]])
+                self.create_menu_items(tree_item, item[1])
+            else:
+                tree_item = QTreeWidgetItem(parent, [item[0]])
+                tree_item.setData(0, Qt.ItemDataRole.UserRole, item[1])
 
-        main_layout.addWidget(scroll_area)
+    def on_item_clicked(self, item, column):
+        callback = item.data(0, Qt.ItemDataRole.UserRole)
+        if callback:
+            callback()
 
-        self.web_view = QWebEngineView()
-        settings = self.web_view.settings()
+    def create_web_view(self):
+        web_view = QWebEngineView()
+        settings = web_view.settings()
         settings.setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
         settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
         settings.setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, True)
         settings.setAttribute(QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
-        self.web_view.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        web_view.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        self.web_view.page().setWebChannel(self.channel)
+        web_view.page().setWebChannel(self.channel)
         self.channel.registerObject('pyotherside', self.web_bridge)
 
         profile = QWebEngineProfile.defaultProfile()
         profile.setHttpUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
-        main_layout.addWidget(self.web_view, 4)
+        web_view.page().javaScriptConsoleMessage = self.log_javascript
+        web_view.loadFinished.connect(self.onLoadFinished)
 
-        self.web_view.page().javaScriptConsoleMessage = self.log_javascript
-        self.web_view.loadFinished.connect(self.onLoadFinished)
-
-        self.load_home_page()
-
-    def load_page(self, page_name):
-        raise NotImplementedError("Subclasses must implement this method")
-
-    def load_home_page(self):
-        self.load_page("home")
-
-    def onLoadFinished(self, ok):
-        if ok:
-            print(f"Page loaded successfully: {self.web_view.url().toString()}")
-            self.web_view.page().runJavaScript("""
-                console.log("JavaScript executed from Python");
-                if (typeof QWebChannel !== 'undefined') {
-                    console.log("QWebChannel is defined");
-                    new QWebChannel(qt.webChannelTransport, function (channel) {
-                        window.pyotherside = channel.objects.pyotherside;
-                        console.log("QWebChannel initialized from Python");
-                        if (typeof initSearch === 'function') {
-                            console.log("Calling initSearch");
-                            initSearch();
-                        } else {
-                            console.log("initSearch is not defined");
-                        }
-                    });
-                } else {
-                    console.error("QWebChannel is not defined");
-                }
-            """, self.log_javascript_result)
-        else:
-            print(f"Page load failed: {self.web_view.url().toString()}")
-
-    def log_javascript(self, level, message, line, source):
-        print(f"JavaScript [{level}] {message} at line {line} in {source}")
-
-    def log_javascript_result(self, result):
-        print(f"JavaScript result: {result}")
-
-class GitHubMainWindow(BaseMainWindow):
-    GITHUB_RAW_URL = "https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/"
+        return web_view
 
     def load_page(self, page_name):
         print(f"Loading page from GitHub: {page_name}")
@@ -141,6 +123,63 @@ class GitHubMainWindow(BaseMainWindow):
             error_html = f"<html><body><h1>Error loading page</h1><p>{str(e)}</p></body></html>"
             self.web_view.setHtml(error_html)
             print(f"Error loading page {page_name}: {str(e)}")
+
+    def load_home_page(self):
+        try:
+            readme_content = self.download_file("README.md")
+            html_content = markdown.markdown(readme_content)
+            css_content = """
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    padding: 20px;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    color: #333333;
+                }
+                h1, h2 {
+                    color: #2c3e50;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 10px;
+                }
+                img {
+                    display: block;
+                    margin: 20px auto;
+                    max-width: 100%;
+                    height: auto;
+                }
+                pre {
+                    background-color: #f8f8f8;
+                    border: 1px solid #ddd;
+                    border-radius: 3px;
+                    padding: 10px;
+                    overflow-x: auto;
+                }
+                code {
+                    font-family: 'Courier New', Courier, monospace;
+                    background-color: #f8f8f8;
+                    padding: 2px 4px;
+                    border-radius: 3px;
+                }
+                a {
+                    color: #3498db;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+                ul, ol {
+                    padding-left: 30px;
+                }
+            """
+            full_html = self.create_full_html(html_content, "", css_content)
+            self.web_view.setHtml(full_html, QUrl(self.GITHUB_RAW_URL))
+        except Exception as e:
+            error_html = f"<html><body><h1>Error loading README</h1><p>{str(e)}</p></body></html>"
+            self.web_view.setHtml(error_html)
+            print(f"Error loading README: {str(e)}")
+
 
     @staticmethod
     def download_file(filename):
@@ -192,6 +231,36 @@ class GitHubMainWindow(BaseMainWindow):
         </body>
         </html>
         """
+
+    def onLoadFinished(self, ok):
+        if ok:
+            print(f"Page loaded successfully: {self.web_view.url().toString()}")
+            self.web_view.page().runJavaScript("""
+                console.log("JavaScript executed from Python");
+                if (typeof QWebChannel !== 'undefined') {
+                    console.log("QWebChannel is defined");
+                    new QWebChannel(qt.webChannelTransport, function (channel) {
+                        window.pyotherside = channel.objects.pyotherside;
+                        console.log("QWebChannel initialized from Python");
+                        if (typeof initSearch === 'function') {
+                            console.log("Calling initSearch");
+                            initSearch();
+                        } else {
+                            console.log("initSearch is not defined");
+                        }
+                    });
+                } else {
+                    console.error("QWebChannel is not defined");
+                }
+            """, self.log_javascript_result)
+        else:
+            print(f"Page load failed: {self.web_view.url().toString()}")
+
+    def log_javascript(self, level, message, line, source):
+        print(f"JavaScript [{level}] {message} at line {line} in {source}")
+
+    def log_javascript_result(self, result):
+        print(f"JavaScript result: {result}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
