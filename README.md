@@ -19,6 +19,11 @@
   </a>
 </p>
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 <picture>
    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
 </picture> <br>

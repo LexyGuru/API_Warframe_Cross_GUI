@@ -131,7 +131,10 @@ class GitHubMainWindow(QMainWindow):
     def load_home_page(self):
         try:
             readme_content = self.download_file("README.md")
-            html_content = markdown.markdown(readme_content)
+
+            # Használjunk részletesebb Markdown konverziót
+            html_content = markdown.markdown(readme_content, extensions=['extra', 'codehilite'])
+
             css_content = """
                 body {
                     font-family: Arial, sans-serif;
@@ -142,7 +145,7 @@ class GitHubMainWindow(QMainWindow):
                     background-color: #ffffff;
                     color: #333333;
                 }
-                h1, h2 {
+                h1, h2, h3, h4, h5, h6 {
                     color: #2c3e50;
                     border-bottom: 1px solid #eee;
                     padding-bottom: 10px;
@@ -176,7 +179,24 @@ class GitHubMainWindow(QMainWindow):
                 ul, ol {
                     padding-left: 30px;
                 }
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin-bottom: 20px;
+                }
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                .center {
+                    text-align: center;
+                }
             """
+
             full_html = self.create_full_html(html_content, "", css_content)
             self.web_view.setHtml(full_html, QUrl(self.GITHUB_RAW_URL))
         except Exception as e:
