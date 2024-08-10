@@ -1,3 +1,4 @@
+
 <h1 align="center">
   <br>
   <a href="https://github.com/LexyGuru/API_Warframe_Cross_GUI"><img src="Icons/None.png" alt="Lekszikov" width="200"></a>
@@ -5,21 +6,18 @@
   Lekszikov Miklos
   <br>
 </h1>
-
 <h4 align="center">Ez egy Warframe API asztali alkalmazas.</h4>
-
-<picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
-    <img alt="Info" src="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
-</picture>(https://github.com/LexyGuru/API_Warframe_Cross_GUI/graphs/contributors)
-<picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI">
-    <img alt="Info" src="https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI">
-</picture>(https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues)
-<picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI">
-    <img alt="Info" src="https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI">
-</picture>(https://github.com/LexyGuru/API_Warframe_Cross_GUI/releases)
+<p align="center">
+  <a href="https://github.com/LexyGuru/API_Warframe_Cross_GUI/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI" alt="Contributors">
+  </a>
+  <a href="https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues">
+    <img src="https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI" alt="Commit Activity">
+  </a>
+  <a href="https://github.com/LexyGuru/API_Warframe_Cross_GUI/releases">
+    <img src="https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI" alt="Release Date">
+  </a>
+</p>
 
 > <picture>
 >    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
