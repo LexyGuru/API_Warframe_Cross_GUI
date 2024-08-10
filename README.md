@@ -7,39 +7,61 @@
 </h1>
 
 <h4 align="center">Ez egy Warframe API asztali alkalmazas.</h4>
+[![Contributors][contributors-shield]][contributors-url]
+[![Relases][relases]][relases_url]
+[![Commit][commit]][commit-url]
+
+> <picture>
+>    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
+>    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
+> </picture> <br>
+> Cross platform 
+
+|            | Support |
+|------------|---------|
+| Windows    | yes     |
+| macOS      | yes     |
+| Linux      | yes     | 
 
 
-<p align="center">
+> <picture>
+>    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
+>    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
+> </picture><br>
+> Fontosabb API lekeresek 
 
-</p>
+|                 | Menü                 | Aktiv   |
+|-----------------|----------------------|---------|
+| `Keresés`         |                      |         |
+|                 | `Warframe Wiki`      | `Yes`   |
+|                 | `Item Drop infok`    | `Yes`   |
+|                 | `Warframe Drop infok` | `Yes`   |
+| `Ciklusok`        |                      |         |
+|                 |                      | `Yes`   |
+|                 | `Void Fissures`       | `Yes`   |
+|                 | `Sortie`              | `Yes`   |
+|                 | `Nightwave`           | `Yes`   |
+|                 | `Ciklusok`            | `Yes`   |
+|                 | `Arbitration`         | `Yes`   |
+|                 | `Archon Hunt`         | `Yes`   |
+|                 | `Baro Ki'Teer`        | `Yes`   |
+| `Események`       |                      | `Yes`   |
+| `Git Update Info` |                      | `Yes`   |
 
+> <picture>
+>    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+>    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+> </picture> <br>
 
-
-## Jelenlegi 
-
-* Cross platform
-  - Windows, macOS és Linux ready.
-* Fontosabb API lekeresek
-  * Keresés 
-    - ITEM 
-    - DROP 
-  * Ciklusok 
-  * Események 
-  * Void Fissures 
-  * Sortie 
-  * Nightwave 
-  * Arbitration 
-  * Baro Ki'Teer 
-
-
-## Letöltés
 ```bash
-# Clone this repository
+# Clone git 
 $ git clone https://github.com/LexyGuru/API_Warframe_Cross_GUI.git
 
-# Go into the repository
+# Mappa megnyitas
 $ cd API_Warframe_Cross_GUI
 
+# Függöseg telepitese:
+python install_update_packages.py
 ```
 
 Windows rendszerre:
@@ -57,8 +79,42 @@ Linux rendszerre:
 pyinstaller --onefile --windowed --add-data "gui:gui" --add-data "gui/Script:gui/Script" --add-data "gui/Styles:gui/Styles" --icon=Icons/AppIcon.png main_qt6.py
 ```
 
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.onlogic.com/blog/how-to-enable-bash-for-windows-10-and-11/) or use `node` from the command prompt.
+> <picture>
+>   <img alt="Info" height="15" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+> </picture><br> 
+If you're using Linux Bash for Windows, [see this guide](https://www.onlogic.com/blog/how-to-enable-bash-for-windows-10-and-11/) or use `node` from the command prompt.
+
+
+
+> <picture>
+>   <img alt="Info" height="15" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/warning.svg">
+> </picture> 
+>
+ In case of problems, file a [report](https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues).
+
+
+
+[contributors-shield]: https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI
+[contributors-url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/graphs/contributors
+[commit]: https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI
+[commit-url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues
+[relases]: https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI
+[relases_url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/releases
+
+
+<!---
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/check.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/complete.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/danger.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/error.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/example.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/info.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/issue.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/note.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/solution.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/tip.svg
+https://github.com/LexyGuru/API_Warframe_Cross_GUI/blob/main/Icons/git/warning.svg--->
+
 
 
 
