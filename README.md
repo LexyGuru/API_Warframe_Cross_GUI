@@ -7,9 +7,18 @@
 </h1>
 
 <h4 align="center">Ez egy Warframe API asztali alkalmazas.</h4>
-[![Contributors][contributors-shield]][contributors-url]
-[![Relases][relases]][relases_url]
-[![Commit][commit]][commit-url]
+<a align="center">[<picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
+    <img alt="Info" src="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
+</picture>](https://github.com/LexyGuru/API_Warframe_Cross_GUI/graphs/contributors)
+[<picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI">
+    <img alt="Info" src="https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI">
+</picture>](https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues)
+[<picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI">
+    <img alt="Info" src="https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI">
+</picture>](https://github.com/LexyGuru/API_Warframe_Cross_GUI/releases)</a>
 
 > <picture>
 >    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
@@ -49,7 +58,7 @@
 | `Git Update Info` |                      | `Yes`   |
 
 > <picture>
->    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+>    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
 >    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
 > </picture> <br>
 
@@ -94,12 +103,7 @@ If you're using Linux Bash for Windows, [see this guide](https://www.onlogic.com
 
 
 
-[contributors-shield]: https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI
-[contributors-url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/graphs/contributors
-[commit]: https://img.shields.io/github/commit-activity/t/LexyGuru/API_Warframe_Cross_GUI
-[commit-url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues
-[relases]: https://img.shields.io/github/release-date/LexyGuru/API_Warframe_Cross_GUI
-[relases_url]: https://github.com/LexyGuru/API_Warframe_Cross_GUI/releases
+
 
 
 <!---
