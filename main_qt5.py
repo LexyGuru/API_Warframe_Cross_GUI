@@ -50,6 +50,7 @@ class BaseMainWindow(QMainWindow):
             ("Események", lambda: self.load_page("events")),
             ("Void Fissures", lambda: self.load_page("fissures")),
             ("Sortie", lambda: self.load_page("sortie")),
+            ("Arcon Hunt", lambda: self.load_page("archon")),
             ("Nightwave", lambda: self.load_page("nightwave")),
             ("Arbitration", lambda: self.load_page("arbitration")),
             ("Baro Ki'Teer", lambda: self.load_page("baro")),
@@ -244,7 +245,7 @@ class GitHubMainWindow(BaseMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    use_local = False  # Állítsa True-ra a helyi verzióhoz, False-ra a GitHub verzióhoz
+    use_local = True  # Állítsa True-ra a helyi verzióhoz, False-ra a GitHub verzióhoz
 
     if use_local:
         window = LocalMainWindow()

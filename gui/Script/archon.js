@@ -20,7 +20,7 @@ $(document).ready(function() {
         return nodeName.replace(/\(.*?\)/g, '').trim();
     }
 
-    $.getJSON('https://api.warframestat.us/pc/sortie?language=en', function(data) {
+    $.getJSON('https://api.warframestat.us/pc/archonHunt?language=en', function(data) {
         let archonHtml = `
             <div class="cycle-card">
                 <h2>${data.boss}</h2>
@@ -30,20 +30,18 @@ $(document).ready(function() {
                 </div>
             </div>
         `;
-        data.variants.forEach((variant, index) => {
+        data.missions.forEach((mission, index) => {
             archonHtml += `
                 <div class="cycle-card">
                     <h2>Mission ${index + 1}</h2>
                     <div class="cycle-info">
-                        <p><span class="state">Type:</span> ${variant.missionType}</p>
-                        <p><span class="state">Modifier:</span> ${variant.modifier}</p>
-                        <p><span class="state">Node:</span> ${cleanNodeName(variant.node)}</p>
+                        <p><span class="state">Type:</span> ${mission.typeKey}</p>
+                        <p><span class="state">Node:</span> ${cleanNodeName(mission.nodeKey)}</p>
                     </div>
                 </div>
             `;
         });
-        $('#archon-info').html(arconHtml);
-        updateArchonTimerr();
+        $('#archon-info').html(archonHtml);
         setInterval(updateArchonTimer, 1000);
     });
 });
