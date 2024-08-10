@@ -19,10 +19,10 @@
   </a>
 </p>
 
-> <picture>
->    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
->    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
-> </picture> <br>
+<picture>
+   <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
+</picture> <br>
+
 > Cross platform 
 
 |            | Support |
@@ -32,34 +32,29 @@
 | Linux      | yes     | 
 
 
-> <picture>
->    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
->    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/info.svg">
-> </picture><br>
 > Fontosabb API lekeresek 
 
-|                 | Menü                 | Aktiv   |
-|-----------------|----------------------|---------|
-| `Keresés`         |                      |         |
-|                 | `Warframe Wiki`      | `Yes`   |
-|                 | `Item Drop infok`    | `Yes`   |
-|                 | `Warframe Drop infok` | `Yes`   |
-| `Ciklusok`        |                      |         |
-|                 |                      | `Yes`   |
-|                 | `Void Fissures`       | `Yes`   |
-|                 | `Sortie`              | `Yes`   |
-|                 | `Nightwave`           | `Yes`   |
-|                 | `Ciklusok`            | `Yes`   |
-|                 | `Arbitration`         | `Yes`   |
-|                 | `Archon Hunt`         | `Yes`   |
-|                 | `Baro Ki'Teer`        | `Yes`   |
-| `Események`       |                      | `Yes`   |
-| `Git Update Info` |                      | `Yes`   |
+|                   | Menü                  | Aktiv  |
+|-------------------|-----------------------|--------|
+| `Keresés`         |                       |        |
+|                   | `Warframe Wiki`       | `Yes`  |
+|                   | `Item Drop infok`     | `Yes`  |
+|                   | `Warframe Drop infok` | `Yes`  |
+| `Ciklusok`        |                       |        |
+|                   |                       | `Yes`  |
+|                   | `Void Fissures`       | `Yes`  |
+|                   | `Sortie`              | `Yes`  |
+|                   | `Nightwave`           | `Yes`  |
+|                   | `Ciklusok`            | `Yes`  |
+|                   | `Arbitration`         | `Yes`  |
+|                   | `Archon Hunt`         | `Yes`  |
+|                   | `Baro Ki'Teer`        | `Yes`  |
+| `Események`       |                       | `Yes`  |
+| `Git Update Info` |                       | `Yes`  |
 
-> <picture>
->    <source media="(prefers-color-scheme: light)" srcset="https://img.shields.io/github/contributors/LexyGuru/API_Warframe_Cross_GUI">
->    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
-> </picture> <br>
+<picture>
+    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+</picture> <br>
 
 ```bash
 # Clone git 
@@ -71,6 +66,9 @@ $ cd API_Warframe_Cross_GUI
 # Függöseg telepitese:
 python install_update_packages.py
 ```
+<picture>
+    <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/tip.svg">
+</picture> <br>
 
 Windows rendszerre:
 ```bash
@@ -87,18 +85,19 @@ Linux rendszerre:
 pyinstaller --onefile --windowed --add-data "gui:gui" --add-data "gui/Script:gui/Script" --add-data "gui/Styles:gui/Styles" --icon=Icons/AppIcon.png main_qt6.py
 ```
 
-> <picture>
->   <img alt="Info" height="15" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
-> </picture><br> 
+<picture>
+   <img alt="Info" height="18" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/note.svg">
+</picture><br> 
+
 If you're using Linux Bash for Windows, [see this guide](https://www.onlogic.com/blog/how-to-enable-bash-for-windows-10-and-11/) or use `node` from the command prompt.
 
+<br>
 
+ <picture>
+   <img alt="Info" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/warning.svg">
+</picture>
 
-> <picture>
->   <img alt="Info" height="15" src="https://raw.githubusercontent.com/LexyGuru/API_Warframe_Cross_GUI/main/Icons/git/warning.svg">
-> </picture> 
->
- In case of problems, file a [report](https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues).
+In case of problems, file a [report](https://github.com/LexyGuru/API_Warframe_Cross_GUI/issues).
 
 
 
